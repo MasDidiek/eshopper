@@ -20,9 +20,9 @@
                         <table width="100%">
                             <tr>
 
-                                <td width="400"><strong class="text-primary">20 Juni 2022</strong></td>
-                                <td width="500"><strong class="text-info">INV 20255/02365603230</strong></td>
-                                <td>Credit Card</td>
+                                <td width="400"><strong class="text-primary">{{$headerCheckout->tanggal}}</strong></td>
+                                <td width="500"><strong class="text-info">{{$headerCheckout->invoice_code}}</strong></td>
+                                <td> {{$headerCheckout->payment_method}}</td>
 
                             </tr>
 
@@ -30,9 +30,9 @@
 
                                 <td>
                                     <strong class="text-info">Didiek Agus Kurniawan</strong>
-                                    <strong>Home</strong><br>
+                                    <strong>{{$headerCheckout->title_location}}</strong><br>
 
-                                    Jl. Sungai landak blok A
+                                    {{$headerCheckout->address}}
                                 </td>
                             </tr>
                         </table>
@@ -59,21 +59,32 @@
                                     {{ $itemBelanja->product_name}}
                                 </div>
                                 <div class="col-md-2">
-                                    <strong>{{ $itemBelanja->harga_satuan }}</strong>
+                                    <strong>Rp. {{ number_format($itemBelanja->harga_satuan) }}</strong>
                                 </div>
                                 <div class="col-md-2">
-                                    <strong>{{ $itemBelanja->harga_satuan }}</strong>
+                                    <strong>{{ $itemBelanja->qty }}</strong>
                                 </div>
-                                <div class="col-md-2">
-                                    <strong>{{ $itemBelanja->subtotal }}</strong>
+                                <div class="col-md-2 text-right">
+                                    <strong>Rp. {{number_format($itemBelanja->subtotal) }}</strong>
                                 </div>
 
                             </div>
 
 
 
-
                             @endforeach
+                            <div class="row pt-4">
+                                <div class="col-md-10">Subtotal</div>
+                                <div class="col-md-2 text-right">Rp. {{number_format($headerCheckout->total)}} </div>
+                            </div>
+                            <div class="row py-2">
+                                <div class="col-md-10">Shipping Charge</div>
+                                <div class="col-md-2  text-right">Rp. {{number_format($headerCheckout->shipping_charge)}} </div>
+                            </div>
+                            <div class="row py-2" style="background-color: #EEE; font-weight:bold">
+                                <div class="col-md-10">Total</div>
+                                <div class="col-md-2 text-right">Rp. {{number_format($headerCheckout->grand_total)}} </div>
+                            </div>
 
                         </div>
                     </div>

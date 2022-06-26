@@ -23,4 +23,25 @@ class ProductController extends Controller
         $products = Product::find($id);
         return view('product_detail', compact('products'));
     }
+
+
+    public function productApi()
+    {
+        $products = Product::all();
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $products
+        ]);
+    }
+
+    public function productDetailApi($id)
+    {
+        $product = Product::find($id);
+
+        return response()->json([
+            'message' => 'success',
+            'data' => $product
+        ]);
+    }
 }

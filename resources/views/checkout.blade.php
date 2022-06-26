@@ -41,8 +41,16 @@
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>Address </label>
-                                <textarea name="address" class="form-control" required></textarea>
+                                <textarea name="address" class="form-control" id="address" required></textarea>
                             </div>
+
+                            <div id="map_canvas"></div>
+
+
+
+                            <button type="button" onclick="getLocation()">Try It</button>
+
+                            <p id="demo">ini isinya</p>
 
 
                         </div>
@@ -136,4 +144,23 @@
 
 <!-- Vendor End -->
 
+@endsection
+
+@section('scripts')
+<script>
+    var x = document.getElementById("demo");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        x.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+    }
+</script>
 @endsection

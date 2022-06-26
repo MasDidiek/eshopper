@@ -46,4 +46,39 @@ class RegisterController extends Controller
     {
         return view('success_register');
     }
+
+
+    public function registerApi(Request $request)
+    {
+        $emailAlready = User::where('email', $request->email)->first();
+
+        if ($emailAlready) {
+            return response()->json([
+                'message' => 'Email sudah digunakan!',
+                'data' => []
+            ]);
+        }
+
+        $user = new User;
+        $user->id = $user::max('id') + 1;
+        $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
+        $user->last_name = $request->last_name;
+        $user->email = strtolower($request->email);
+        $user->phone = $request->phone;
+        $user->password = Hash::make($request->password);
+        $user = $user->save();
+
+        if ($user) {
+            return response()->json([
+                'message' => 'success',
+                'data' => $user
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'error',
+                'data' => []
+            ]);
+        }
+    }
 }

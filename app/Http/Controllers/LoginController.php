@@ -42,4 +42,31 @@ class LoginController extends Controller
 
         return redirect('/login');
     }
+
+
+    public function loginApi(Request $request)
+    {
+        $data = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+
+        if (!$token = Auth::attempt($data)) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        if (Auth::check()) {
+            return response()->json([
+                'message' => 'success',
+                'data' => Auth::user(),
+                'token' => $token
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'error',
+                'data' => [],
+                'token' => ''
+            ]);
+        }
+    }
 }

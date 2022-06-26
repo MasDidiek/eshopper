@@ -19,11 +19,10 @@
 
 <!-- Customized Bootstrap Stylesheet -->
 
-<?php
-define('MAIN_URL', 'localhost/');
-
-?>
 <link href="/css/style.css" rel="stylesheet">
+<script src="/js/geo.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
 
 <style>
     .logout-btn {
