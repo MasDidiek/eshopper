@@ -41,22 +41,21 @@
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>Address </label>
-                                <textarea name="address" class="form-control" id="address" required></textarea>
+                                <textarea name="address" id="address" class="form-control" id="address" required></textarea>
                             </div>
-
-                            <div id="map_canvas"></div>
-
-
-
-                            <button type="button" onclick="getLocation()">Try It</button>
-
-                            <p id="demo">ini isinya</p>
-
-
                         </div>
                     </div>
 
+                    <button type="button" class="btn btn-info" onclick="getLocation()" style="margin-left: 15px;">Dapatkan Alamat</button>
 
+                    <input id="latlng" type="hidden" value="-6.1045917,106.939519" />
+                    <div id="map">map loading</div>
+
+
+
+                    <input id="submit" type="button" value="Reverse Geocode" style="display: none;" />
+
+                    <div id="result"></div>
                 </div>
                 <div class="col-lg-4">
                     <div class="card border-secondary mb-5">
@@ -147,20 +146,100 @@
 @endsection
 
 @section('scripts')
+
+
+
+
+<script>
+    function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 15,
+            center: {
+                lat: -6.1045917,
+                lng: 106.939519
+            },
+        });
+        const geocoder = new google.maps.Geocoder();
+        const infowindow = new google.maps.InfoWindow();
+
+        geocodeLatLng(geocoder, map, infowindow);
+
+        document.getElementById("submit").addEventListener("click", () => {
+            geocodeLatLng(geocoder, map, infowindow);
+        });
+    }
+
+
+
+    function geocodeLatLng(geocoder, map, infowindow) {
+        const input = document.getElementById("latlng").value;
+        const latlngStr = input.split(",", 2);
+        const latlng = {
+
+            lat: parseFloat(latlngStr[0]),
+            lng: parseFloat(latlngStr[1]),
+        };
+
+        geocoder
+            .geocode({
+                location: latlng
+            })
+            .then((response) => {
+                if (response.results[0]) {
+                    map.setZoom(11);
+
+                    const marker = new google.maps.Marker({
+                        position: latlng,
+                        map: map,
+                    });
+
+                    infowindow.setContent(response.results[0].formatted_address);
+                    document.getElementById(
+                        "address"
+                    ).innerHTML = `${response.results[0].formatted_address}`;
+                    infowindow.open(map, marker);
+                } else {
+                    window.alert("No results found");
+                }
+            })
+            .catch((e) => window.alert("Geocoder failed due to: " + e));
+    }
+</script>
+
+
 <script>
     var x = document.getElementById("demo");
 
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
+
         } else {
             x.innerHTML = "Geolocation is not supported by this browser.";
         }
     }
 
     function showPosition(position) {
-        x.innerHTML = "Latitude: " + position.coords.latitude +
-            "<br>Longitude: " + position.coords.longitude;
+        // x.innerHTML = "Latitude: " + position.coords.latitude +
+        //     "<br>Longitude: " + position.coords.longitude;
+
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+
+        // geocodeLatLng(geocoder, map, infowindow, latitude, longitude);
+
+        const name = document.getElementById('latlng');
+        // setting the value
+        name.value = latitude + "," + longitude;
+        document.getElementById('submit').click();
+
+
+        //geocodeLatLng(geocoder, map, infowindow);
+
     }
 </script>
+
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4ULw0TXRCvk5YaDkVBUdUwDZXLMs8opc&callback=initMap" type="text/javascript"></script>
+
 @endsection

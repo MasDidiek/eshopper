@@ -194,4 +194,10 @@ class CartController extends Controller
     {
         return view('success_checkout');
     }
+
+
+    public function getAddress()
+    {
+        return view('ge_alamat');
+    }
 }

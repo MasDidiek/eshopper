@@ -54,6 +54,8 @@ Route::get('/success_checkout', [CartController::class, 'successCheckout']);
 Route::get('/myhistory', [MemberController::class, 'myhistory']);
 Route::get('/detail_pembelian/{id}', [MemberController::class, 'detailPembelian']);
 
+Route::get('/getAddress', [CartController::class, 'getAddress']);
+
 
 
 Route::get('/product', [ProductController::class, 'index'])->middleware('auth');

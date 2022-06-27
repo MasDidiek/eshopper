@@ -6,7 +6,7 @@
     @include('layouts.front.meta')
 </head>
 
-<body onload="initialize_map();initialize()">
+<body>
     <!-- Topbar Start -->
     <div class="container-fluid">
         <!-- topbar    -->

@@ -21,7 +21,7 @@
 
 <link href="/css/style.css" rel="stylesheet">
 <script src="/js/geo.js"></script>
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
 
 
 <style>
@@ -56,5 +56,13 @@
         padding: 10px;
         margin-bottom: 10px;
         border-radius: 3px;
+    }
+
+    #map {
+        height: 600px;
+        width: 98%;
+        margin: 20px 15px;
+        padding: 10px;
+        border: 2px solid #ccc;
     }
 </style>
